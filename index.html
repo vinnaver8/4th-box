@@ -21,13 +21,11 @@
       max-width: 400px;
       aspect-ratio: 1 / 1;
     }
-
-/* Add to your existing .ring definition */
+/* Replace your existing .ring rules with this: */
 .ring {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 250px;
+  top: 50%; left: 50%;
+  width: 250px;     /* Slightly larger for more visible ring */
   height: 250px;
   border-radius: 50%;
   background: conic-gradient(
@@ -38,28 +36,20 @@
     rgba(0,128,255,0.8) 75%,
     rgba(128,0,255,0.7) 100%
   );
-  filter: blur(50px);
-  opacity: 0.6;
-  transform: translate(-50%, -50%) scale(1);
-  animation:
-    spin 10s linear infinite,
-    pulse 4s ease-in-out infinite;
-  box-shadow:
-    0 0 60px 20px rgba(0,128,255,0.2),
-    0 0 80px 40px rgba(255,128,0,0.15);
+  filter: blur(50px);      /* Increase blur to soften and thicken */
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
+  animation: wave 5s ease-out infinite;
+  box-shadow: 0 0 60px 20px rgba(0,128,255,0.4),
+            0 0 80px 40px rgba(255,128,0,0.3);
 }
 
-/* Spin animation for swirling rotation */
-@keyframes spin {
-  0% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
-  100% { transform: translate(-50%, -50%) rotate(360deg) scale(1); }
-}
-
-/* Optional: slight pulse to give some life */
-@keyframes pulse {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 0.8; }
-}
+/* Stagger multiple rings */
+.ring:nth-child(1) { animation-delay: 0s; }
+.ring:nth-child(2) { animation-delay: 1.2s; }
+.ring:nth-child(3) { animation-delay: 2.4s; }
+.ring:nth-child(4) { animation-delay: 3.6s; }
+.ring:nth-child(5) { animation-delay: 4.8s; }
 
 @keyframes wave {
   0% {
@@ -74,6 +64,7 @@
     opacity: 0;
   }
 }
+
 
     .bell-container {
       position: absolute;
