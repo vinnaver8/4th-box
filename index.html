@@ -42,21 +42,19 @@
     .ring:nth-child(4) { animation-delay: 3s; }
     .ring:nth-child(5) { animation-delay: 4s; }
 
-    @keyframes wave {
-      0% {
-        transform: translate(-50%, -50%) scale(0);
-        opacity: 0.6;
-        box-shadow: 0 0 40px rgba(0,128,255,0.6), 0 0 60px rgba(255,128,0,0.4);
-      }
-      50% {
-        border-color: rgba(128,0,255,0.3);
-        opacity: 0.4;
-      }
-      100% {
-        transform: translate(-50%, -50%) scale(12);
-        opacity: 0;
-        border-color: transparent;
-      }
+    @keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba($green, 0.1),
+                0 0 0 20px rgba($green, 0.1),
+                0 0 0 40px rgba($green, 0.1),
+                0 0 0 60px rgba($green, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 20px rgba($green, 0.1),
+                0 0 0 40px rgba($green, 0.1),
+                0 0 0 60px rgba($green, 0.1),
+                0 0 0 80px rgba($green, 0);
+  }
     }
 
     .bell-container {
