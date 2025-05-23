@@ -44,19 +44,36 @@
 
     @keyframes ripple {
   0% {
-    box-shadow: 0 0 0 0 rgba($green, 0.1),
-                0 0 0 20px rgba($green, 0.1),
-                0 0 0 40px rgba($green, 0.1),
-                0 0 0 60px rgba($green, 0.1);
+    /* start with all layers collapsed at the bell */
+    box-shadow:
+      /* inner blue glow */
+      0 0 0   0   rgba(0, 128, 255, 0.4),
+      /* middle purple glow */
+      0 0 0  20px rgba(128, 0, 255, 0.3),
+      /* outer orange glow */
+      0 0 0  40px rgba(255, 128,   0, 0.2),
+      /* very outer fall-off */
+      0 0 0  60px rgba(255, 128,   0, 0  );
   }
+
+  50% {
+    /* mid-animation: spread the blue and purple further, glow still visible */
+    box-shadow:
+      0 0 0  20px rgba(0, 128, 255, 0.3),
+      0 0 0  40px rgba(128, 0, 255, 0.2),
+      0 0 0  60px rgba(255, 128,   0, 0.1),
+      0 0 0  80px rgba(255, 128,   0, 0   );
+  }
+
   100% {
-    box-shadow: 0 0 0 20px rgba($green, 0.1),
-                0 0 0 40px rgba($green, 0.1),
-                0 0 0 60px rgba($green, 0.1),
-                0 0 0 80px rgba($green, 0);
+    /* finish fully spread and fade out */
+    box-shadow:
+      0 0 0  40px rgba(0,   128, 255, 0   ),
+      0 0 0  60px rgba(128, 0,   255, 0   ),
+      0 0 0  80px rgba(255, 128, 0,   0   ),
+      0 0 0 100px rgba(255, 128, 0,   0   );
   }
     }
-
     .bell-container {
       position: absolute;
       top: 50%;
