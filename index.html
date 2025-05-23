@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Ripple Animation</title>
-  <!-- Material Icons for the bell -->
+  <title>Soft Ripple Animation</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
     /* Center everything in a flex container with a dark background */
@@ -15,77 +14,92 @@
       height: 100vh;
       background: radial-gradient(circle at center, #222 0%, #000 80%);
     }
+
     /* Square container that holds rings and the bell */
     .ripple-container {
       position: relative;
       width: 80%;
       max-width: 400px;
-      aspect-ratio: 1 / 1; /* Maintain square shape responsively6 */
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
     }
-    /* Common ring styles: a circle that will expand and fade */
+    /* 1) A faint color tint overlay for overall softness */
+    .ripple-container::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(
+        circle,
+        rgba(255,255,255,0.02) 0%,
+        rgba(0,0,0,0.5) 70%
+      );
+      border-radius: 50%;
+    }
+
+    /* Soft blurred rings with RGBA borders and glow */
     .ring {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 50px;
-      height: 50px;
-      border: 4px solid;
-      border-radius: 50%; /* Make it a circle7 */
+      top: 50%; left: 50%;
+      width: 50px; height: 50px;
+      border: 4px solid rgba(255,128,0,0.8);
+      border-radius: 50%;
       opacity: 0;
+      filter: blur(30px);
+      box-shadow:
+        0 0 20px rgba(255,128,0,0.6),
+        0 0 30px rgba(0,128,255,0.4);
       animation: ripple 4s linear infinite;
     }
-    /* Offset delays for each ring to create continuous waves */
     .ring:nth-child(1) { animation-delay: 0s; }
     .ring:nth-child(2) { animation-delay: 1.3s; }
     .ring:nth-child(3) { animation-delay: 2.6s; }
 
-    /* Keyframes animate scale and opacity, plus color transitions */
+    /* Animate scale, opacity, and smooth color transitions via RGBA */
     @keyframes ripple {
       0% {
         transform: translate(-50%, -50%) scale(0);
-        opacity: 0.5;
-        border-color: #0080ff; /* start blue */
+        opacity: 0.4;
+        border-color: rgba(0,128,255,0.8);
       }
       33% {
-        border-color: #8000ff; /* transition to purple */
+        border-color: rgba(128,0,255,0.6);
       }
       66% {
-        border-color: #ff8000; /* then to orange */
+        border-color: rgba(255,128,0,0.6);
       }
       100% {
         transform: translate(-50%, -50%) scale(8);
         opacity: 0;
-        border-color: #ff8000;
+        border-color: rgba(255,128,0,0);
       }
     }
 
     /* Bell container: a black circle centered in the container */
     .bell-container {
       position: absolute;
-      top: 50%;
-      left: 50%;
+      top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       background: #000;
       border-radius: 50%;
       padding: 20px;
+      z-index: 5;
     }
     /* Bell icon styling with two-tone glow */
     .bell-icon {
       font-size: 48px;
       color: #eee;
       box-shadow:
-        0 0 15px rgba(0, 128, 255, 0.6),
-        0 0 30px rgba(255, 128, 0, 0.6); /* Blue and orange glow8 */
+        0 0 15px rgba(0,128,255,0.6),
+        0 0 30px rgba(255,128,0,0.6);
     }
     /* Notification badge at top-right of bell */
     .badge {
       position: absolute;
-      top: -8px;
-      right: -8px;
+      top: -8px; right: -8px;
       background: #F44336;
       color: #fff;
-      width: 20px;
-      height: 20px;
+      width: 20px; height: 20px;
       border-radius: 50%;
       display: flex;
       align-items: center;
