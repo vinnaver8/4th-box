@@ -11,51 +11,85 @@
       align-items: center;
       justify-content: center;
       height: 100vh;
+      /* Radial gradient for the dark center and subtly fading to black edges */
       background: radial-gradient(circle at center, #111 0%, #000 100%);
-      overflow: hidden;
+      overflow: hidden; /* Hide anything that goes beyond the viewport */
+      position: relative; /* Needed for the background wave effect */
     }
+
+    /* Pseudo-element for the continuous background wave effect */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center,
+                  rgba(0, 50, 255, 0.2) 0%, /* Inner blue */
+                  rgba(100, 0, 255, 0.2) 25%, /* Purple transition */
+                  rgba(255, 0, 150, 0.2) 50%, /* Pinkish transition */
+                  rgba(255, 120, 0, 0.2) 75%, /* Orange transition */
+                  rgba(255, 200, 0, 0.2) 100%); /* Yellowish outer */
+      animation: backgroundWave 15s linear infinite;
+      opacity: 0.5; /* Adjust opacity to blend with the dark background */
+      mix-blend-mode: screen; /* Blends colors nicely */
+    }
+
+    @keyframes backgroundWave {
+      0% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.1); opacity: 0.6; }
+      100% { transform: scale(1); opacity: 0.5; }
+    }
+
 
     .ripple-container {
       position: relative;
       width: 80%;
       max-width: 400px;
       aspect-ratio: 1 / 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1; /* Ensure bell is on top of background waves */
     }
 
     .ring {
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 80px;
-      height: 80px;
-      border: 4px solid transparent;
+      width: 0px; /* Start with no width for the ring itself */
+      height: 0px; /* Start with no height for the ring itself */
       border-radius: 50%;
-      animation: ripple 5s linear infinite;
+      animation: ripple 4s linear infinite; /* Adjusted animation duration */
       opacity: 0;
       pointer-events: none;
+      transform: translate(-50%, -50%); /* Centering */
     }
 
     /* Multiple rings with delay */
     .ring:nth-child(1) { animation-delay: 0s; }
-    .ring:nth-child(2) { animation-delay: 1s; }
-    .ring:nth-child(3) { animation-delay: 2s; }
-    .ring:nth-child(4) { animation-delay: 3s; }
-    .ring:nth-child(5) { animation-delay: 4s; }
+    .ring:nth-child(2) { animation-delay: 0.8s; } /* Reduced delay for closer waves */
+    .ring:nth-child(3) { animation-delay: 1.6s; }
+    .ring:nth-child(4) { animation-delay: 2.4s; }
+    .ring:nth-child(5) { animation-delay: 3.2s; }
 
     @keyframes ripple {
       0% {
         transform: translate(-50%, -50%) scale(0);
-        opacity: 0.6;
-        box-shadow: 0 0 40px rgba(0,128,255,0.6), 0 0 60px rgba(255,128,0,0.4);
-      }
-      50% {
-        border-color: rgba(128,0,255,0.3);
-        opacity: 0.4;
+        opacity: 0.8; /* Start with higher opacity */
+        /* Complex box-shadow to mimic the gradient wave */
+        box-shadow:
+          0 0 0 5px rgba(0, 100, 255, 0.6), /* Blue */
+          0 0 0 10px rgba(100, 0, 255, 0.5), /* Purple */
+          0 0 0 15px rgba(255, 0, 150, 0.4), /* Pink */
+          0 0 0 20px rgba(255, 120, 0, 0.3), /* Orange */
+          0 0 0 25px rgba(255, 200, 0, 0.2); /* Yellow */
       }
       100% {
-        transform: translate(-50%, -50%) scale(12);
+        transform: translate(-50%, -50%) scale(10); /* Increased scale for wider reach */
         opacity: 0;
-        border-color: transparent;
+        box-shadow: none; /* No shadow at the end */
       }
     }
 
@@ -67,15 +101,17 @@
       background: #000;
       border-radius: 50%;
       padding: 20px;
+      /* Enhanced box-shadow for a more vibrant glow around the bell */
       box-shadow:
-        0 0 20px rgba(0,128,255,0.5),
-        0 0 30px rgba(255,128,0,0.5),
-        inset 0 0 10px rgba(255,255,255,0.1);
+        0 0 30px rgba(0,128,255,0.7), /* Stronger blue glow */
+        0 0 45px rgba(255,128,0,0.6), /* Stronger orange glow */
+        inset 0 0 15px rgba(255,255,255,0.15); /* More prominent inner light */
+      z-index: 2; /* Ensure bell is on top of rings */
     }
 
     .bell-icon {
       font-size: 48px;
-      color: #eee;
+      color: #eee; /* Lighter color for the bell icon */
       position: relative;
     }
 
@@ -106,8 +142,7 @@
 
     <div class="bell-container">
       <div class="bell-icon">
-        &#128276;
-        <div class="badge">26</div>
+        &#128276; <div class="badge">26</div>
       </div>
     </div>
   </div>
