@@ -1,32 +1,29 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Notification with CSS Ripple Rings</title></head>
- <body><style>
-    /* full-screen dark background & center the container */
+  <title>Notification in 500×500 Box</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
     body {
       margin: 0;
       height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #FFFFFF;
+      background: #f0f0f0;
     }
 
     /* container holds SVG + ripple rings */
     .notif-container {
-      position: relative;
-      width: 300px;
-      height: 300px;
+      @apply relative w-full h-full;
     }
 
-    /* your ripple ring CSS */
+    /* ripple ring CSS */
     .ring {
       position: absolute;
       top: 50%; left: 50%;
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       border-radius: 50%;
       pointer-events: none;
       animation: ripple 6s linear infinite;
@@ -36,13 +33,9 @@
         transform: translate(-50%, -50%) scale(0);
         opacity: 0.6;
         box-shadow:
-          /* inner blue glow */
           0 0 0   0px   rgba(0, 128, 255, 0.4),
-          /* middle purple glow */
           0 0 0  20px  rgba(128, 0, 255, 0.3),
-          /* outer orange glow */
           0 0 0  40px  rgba(255, 128, 0,   0.2),
-          /* very outer fall-off */
           0 0 0  60px  rgba(255, 128, 0,   0);
       }
       50% {
@@ -70,7 +63,7 @@
     .ring:nth-child(4) { animation-delay: 3s; }
     .ring:nth-child(5) { animation-delay: 4s; }
 
-    /* inline SVG animations (rotating rings, badge, bell) */
+    /* SVG element animations */
     .notif-container svg {
       position: absolute;
       top: 0; left: 0;
@@ -78,36 +71,32 @@
     .rings circle {
       transform-origin: 150px 150px;
     }
-    .rings circle:nth-child(1) {
-      animation: spin 8s linear infinite reverse;
-    }
-    .rings circle:nth-child(2) {
-      animation: spin 6s linear infinite;
-    }
+    .rings circle:nth-child(1) { animation: spin 8s linear infinite reverse; }
+    .rings circle:nth-child(2) { animation: spin 6s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
     .bell {
       opacity: 0;
       animation: fadeIn 1s ease-out forwards 0.5s;
-    }
-    .badge {
-      transform-origin: 180px 120px;
-      animation: pop 0.6s ease-out forwards 0.7s;
-    }
-    .pulse {
-      transform-origin: 180px 120px;
-      animation: pulseBadge 2s infinite ease-in-out;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
     }
     @keyframes fadeIn {
       from { opacity: 0; transform: scale(0.8) translate(-5px,-5px); }
       to   { opacity: 1; transform: scale(1) translate(0,0); }
     }
+
+    .badge {
+      transform-origin: 180px 120px;
+      animation: pop 0.6s ease-out forwards 0.7s;
+    }
     @keyframes pop {
       0%   { transform: scale(0.2) translate(10px,-10px); opacity: 0; }
       60%  { transform: scale(1.2) translate(-2px,2px); opacity: 1; }
       100% { transform: scale(1) translate(0,0); }
+    }
+
+    .pulse {
+      transform-origin: 180px 120px;
+      animation: pulseBadge 2s infinite ease-in-out;
     }
     @keyframes pulseBadge {
       0%   { transform: scale(1); opacity: 0.5; }
@@ -115,57 +104,66 @@
       100% { transform: scale(1); opacity: 0.5; }
     }
   </style>
-<div class="frame relative w-[500px] h-[500px] bg-black rounded-2xl overflow-hidden shadow-xl">
- <div class="notif-container">
-    <!-- five CSS ripple rings -->
-    <div class="ring"></div>
-    <div class="ring"></div>
-    <div class="ring"></div>
-    <div class="ring"></div>
-    <div class="ring"></div>
+</head>
+<body>
 
-    <!-- inline SVG notification -->
-    <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <pattern id="dots" width="10" height="10" patternUnits="userSpaceOnUse">
-          <circle cx="1" cy="1" r="1" fill="#fff" opacity="0.06"/>
-        </pattern>
-        <radialGradient id="glow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#101020"/>
-          <stop offset="60%" stop-color="#1c1c33"/>
-          <stop offset="100%" stop-color="#000"/>
-        </radialGradient>
-        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#1E90FF"/>
-          <stop offset="50%" stop-color="#7B68EE"/>
-          <stop offset="100%" stop-color="#FFA500"/>
-        </linearGradient>
-        <filter id="glowBell" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
-          <feMerge>
-            <feMergeNode in="blur"/>
-            <feMergeNode in="SourceGraphic"/>
-          </feMerge>
-        </filter>
-        <symbol id="bell" viewBox="0 0 24 24">
-          <path d="M12 2a7 7 0 0 0-7 7v5H4a1 1 0 0 0 0 2h16a1 1 0 0 0 0-2h-1V9a7 7 0 0 0-7-7zm0 22a3 3 0 0 0 3-3H9a3 3 0 0 0 3 3z" fill="#fff"/>
-        </symbol>
-      </defs>
+  <div class="frame relative w-[500px] h-[500px] bg-black rounded-2xl overflow-hidden shadow-xl">
+    <div class="notif-container">
+      <!-- five CSS ripple rings -->
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
 
-      <rect width="300" height="300" fill="url(#dots)"/>
+      <!-- inline SVG notification -->
+      <svg width="100%" height="100%" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet"
+           xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="dots" width="10" height="10" patternUnits="userSpaceOnUse">
+            <circle cx="1" cy="1" r="1" fill="#FFFFFF" opacity="0.3"/>
+          </pattern>
+          <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#1E90FF"/>
+            <stop offset="50%" stop-color="#7B68EE"/>
+            <stop offset="100%" stop-color="#FFA500"/>
+          </linearGradient>
+          <filter id="glowBell" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+          <symbol id="bell" viewBox="0 0 24 24">
+            <path d="M12 2a7 7 0 0 0-7 7v5H4a1 1 0 0 0 0 2h16a1 1 0 0 0 0-2h-1V9a7 7 0 0 0-7-7zm0 22a3 3 0 0 0 3-3H9a3 3 0 0 0 3 3z"
+                  fill="#fff"/>
+          </symbol>
+        </defs>
 
-      <g class="rings">
-        <circle cx="150" cy="150" r="80" fill="none" stroke="url(#ringGrad)" stroke-width="2"/>
-        <circle cx="150" cy="150" r="60" fill="none" stroke="url(#ringGrad)" stroke-width="1.5"/>
-      </g>
- <use href="#bell" x="126" y="126" width="48" height="48" class="bell" filter="url(#glowBell)"/>
-      <g class="badge">
-        <circle cx="180" cy="120" r="16" fill="#ff5b5b"/>
-        <text x="180" y="126" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#fff" font-weight="bold">26</text>
-      </g>
-      <circle cx="180" cy="120" r="20" fill="none" stroke="#ff5b5b" stroke-width="2" opacity="0.5" class="pulse"/>
-    </svg>
-  </div></div>
+        <!-- dots background -->
+        <rect width="300" height="300" fill="url(#dots)"/>
+
+        <!-- rotating gradient rings -->
+        <g class="rings">
+          <circle cx="150" cy="150" r="80" fill="none" stroke="url(#ringGrad)" stroke-width="2"/>
+          <circle cx="150" cy="150" r="60" fill="none" stroke="url(#ringGrad)" stroke-width="1.5"/>
+        </g>
+
+        <!-- enlarged bell -->
+        <use href="#bell" x="126" y="126" width="48" height="48" class="bell" filter="url(#glowBell)"/>
+
+        <!-- badge + pulse -->
+        <g class="badge">
+          <circle cx="180" cy="120" r="16" fill="#ff5b5b"/>
+          <text x="180" y="126" text-anchor="middle" font-family="sans-serif"
+                font-size="14" fill="#fff" font-weight="bold">26</text>
+        </g>
+        <circle cx="180" cy="120" r="20" fill="none" stroke="#ff5b5b"
+                stroke-width="2" opacity="0.5" class="pulse"/>
+      </svg>
+    </div>
+  </div>
 
 </body>
 </html>
