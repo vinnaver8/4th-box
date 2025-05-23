@@ -1,105 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Soft Ripple Animation</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Notification Ripple</title>
   <style>
-    /* Center everything in a flex container with a dark background */
     body {
       margin: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       height: 100vh;
-      background: radial-gradient(circle at center, #222 0%, #000 80%);
+      background: radial-gradient(circle at center, #111 0%, #000 100%);
+      overflow: hidden;
     }
 
-    /* Square container that holds rings and the bell */
     .ripple-container {
       position: relative;
       width: 80%;
       max-width: 400px;
       aspect-ratio: 1 / 1;
-      overflow: hidden;
-    }
-    /* 1) A faint color tint overlay for overall softness */
-    .ripple-container::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background: radial-gradient(
-        circle,
-        rgba(255,255,255,0.02) 0%,
-        rgba(0,0,0,0.5) 70%
-      );
-      border-radius: 50%;
     }
 
-    /* Soft blurred rings with RGBA borders and glow */
     .ring {
       position: absolute;
-      top: 50%; left: 50%;
-      width: 50px; height: 50px;
-      border: 4px solid rgba(255,128,0,0.8);
+      top: 50%;
+      left: 50%;
+      width: 80px;
+      height: 80px;
+      border: 4px solid transparent;
       border-radius: 50%;
+      animation: ripple 5s linear infinite;
       opacity: 0;
-      filter: blur(30px);
-      box-shadow:
-        0 0 20px rgba(255,128,0,0.6),
-        0 0 30px rgba(0,128,255,0.4);
-      animation: ripple 4s linear infinite;
+      pointer-events: none;
     }
-    .ring:nth-child(1) { animation-delay: 0s; }
-    .ring:nth-child(2) { animation-delay: 1.3s; }
-    .ring:nth-child(3) { animation-delay: 2.6s; }
 
-    /* Animate scale, opacity, and smooth color transitions via RGBA */
+    /* Multiple rings with delay */
+    .ring:nth-child(1) { animation-delay: 0s; }
+    .ring:nth-child(2) { animation-delay: 1s; }
+    .ring:nth-child(3) { animation-delay: 2s; }
+    .ring:nth-child(4) { animation-delay: 3s; }
+    .ring:nth-child(5) { animation-delay: 4s; }
+
     @keyframes ripple {
       0% {
         transform: translate(-50%, -50%) scale(0);
+        opacity: 0.6;
+        box-shadow: 0 0 40px rgba(0,128,255,0.6), 0 0 60px rgba(255,128,0,0.4);
+      }
+      50% {
+        border-color: rgba(128,0,255,0.3);
         opacity: 0.4;
-        border-color: rgba(0,128,255,0.8);
-      }
-      33% {
-        border-color: rgba(128,0,255,0.6);
-      }
-      66% {
-        border-color: rgba(255,128,0,0.6);
       }
       100% {
-        transform: translate(-50%, -50%) scale(8);
+        transform: translate(-50%, -50%) scale(12);
         opacity: 0;
-        border-color: rgba(255,128,0,0);
+        border-color: transparent;
       }
     }
 
-    /* Bell container: a black circle centered in the container */
     .bell-container {
       position: absolute;
-      top: 50%; left: 50%;
+      top: 50%;
+      left: 50%;
       transform: translate(-50%, -50%);
       background: #000;
       border-radius: 50%;
       padding: 20px;
-      z-index: 5;
+      box-shadow:
+        0 0 20px rgba(0,128,255,0.5),
+        0 0 30px rgba(255,128,0,0.5),
+        inset 0 0 10px rgba(255,255,255,0.1);
     }
-    /* Bell icon styling with two-tone glow */
+
     .bell-icon {
       font-size: 48px;
       color: #eee;
-      box-shadow:
-        0 0 15px rgba(0,128,255,0.6),
-        0 0 30px rgba(255,128,0,0.6);
+      position: relative;
     }
-    /* Notification badge at top-right of bell */
+
     .badge {
       position: absolute;
-      top: -8px; right: -8px;
+      top: -8px;
+      right: -8px;
       background: #F44336;
       color: #fff;
-      width: 20px; height: 20px;
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -111,14 +98,17 @@
 </head>
 <body>
   <div class="ripple-container">
-    <div class="ring" style="animation-delay: 0s;"></div>
-<div class="ring" style="animation-delay: 1s;"></div>
-<div class="ring" style="animation-delay: 2s;"></div>
-<div class="ring" style="animation-delay: 3s;"></div>
-<div class="ring" style="animation-delay: 4s;"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+
     <div class="bell-container">
-      <i class="material-icons bell-icon">notifications</i>
-      <span class="badge">26</span>
+      <div class="bell-icon">
+        &#128276;
+        <div class="badge">26</div>
+      </div>
     </div>
   </div>
 </body>
